@@ -1,0 +1,341 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:gravity="fill"
+    android:orientation="vertical"
+    android:weightSum="13">
+
+    <TextView
+        android:id="@+id/displayTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:background="@android:color/transparent"
+        android:gravity="end|center_vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textColor="#ffffff"
+        android:textSize="25sp" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:alignmentMode="alignMargins"
+        android:clickable="true"
+        android:columnCount="6"
+        android:focusable="true"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:rowCount="5"
+        android:transitionGroup="true">
+
+        <!-- Row 1 -->
+
+        <Button
+            android:id="@+id/logButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="log"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/lnButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="ln"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/clearButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="C"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/backSpaceButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="⌫"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/percentButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="%"
+            android:textSize="16sp" />
+
+
+        <Button
+            android:id="@+id/divideButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:backgroundTint="#ff9500"
+            android:gravity="center"
+            android:text="/"
+            android:textSize="16sp" />
+        <Button
+            android:id="@+id/sinButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="sin"
+            android:textSize="16sp" />
+
+        <!-- Row 2 -->
+        <Button
+            android:id="@+id/powButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="x^2"
+            android:textSize="16sp" />
+
+
+        <Button
+            android:id="@+id/button7"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="7"
+            android:textSize="16sp" />
+        <Button
+            android:id="@+id/button8"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="8"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/button9"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="9"
+            android:textSize="16sp" />
+        <Button
+            android:id="@+id/multiplyButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:backgroundTint="#ff9500"
+            android:gravity="center"
+            android:text="×"
+            android:textSize="16sp" />
+        <Button
+            android:id="@+id/cosButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="cos"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/powYButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="x^y"
+            android:textSize="16sp" />
+
+
+        <!-- Row 3 -->
+        <Button
+            android:id="@+id/button6"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="6"
+            android:textSize="16sp" />
+
+
+
+
+        <Button
+            android:id="@+id/button4"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="4"
+            android:textSize="16sp" />
+
+        <!-- Row 4 -->
+
+        <Button
+            android:id="@+id/button5"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="5"
+            android:textSize="16sp" />
+        <Button
+            android:id="@+id/subtractButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:backgroundTint="#ff9500"
+            android:gravity="center"
+            android:text="−"
+            android:textSize="16sp" />
+
+
+        <Button
+            android:id="@+id/tanButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="tan"
+            android:textSize="16sp" />
+
+
+        <Button
+            android:id="@+id/sqrtButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="sqrt"
+            android:textSize="16sp" />
+
+
+
+        <Button
+            android:id="@+id/button1"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="1"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/button2"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="2"
+            android:textSize="16sp" />
+
+
+        <Button
+            android:id="@+id/button3"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="3"
+            android:textSize="16sp" />
+        <Button
+            android:id="@+id/addButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:backgroundTint="#ff9500"
+            android:gravity="center"
+            android:text="+"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/negativeButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="+/-"
+            android:textSize="16sp" />
+        <!-- Row 5 -->
+
+        <Button
+            android:id="@+id/decimalButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="."
+            android:textSize="16sp" />
+
+
+        <!-- Row 6 -->
+
+        <Button
+            android:id="@+id/button0"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="3"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="16sp" />
+
+
+
+        <Button
+            android:id="@+id/equalsButton"
+            style="@style/CalculatorAdvancedButtonLand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:backgroundTint="#ff9500"
+            android:gravity="center"
+            android:text="="
+            android:textSize="16sp" />
+    </GridLayout>
+
+
+</LinearLayout>

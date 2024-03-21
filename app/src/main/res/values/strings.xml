@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="aboutText">Version: 1.0.0\n\nDescription:\nApp where you can find two types of calculator simple and advanced\n\nAuthor:\nTheo De Schaeck\n\nfeel free to give feedback :)
+    </string>
+</resources>
