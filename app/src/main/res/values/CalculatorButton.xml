@@ -1,31 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="CalculatorButton" parent="Widget.AppCompat.Button">
-        <item name="android:textSize">20sp</item>
+        <item name="android:autoSizeTextType" tools:targetApi="o">uniform</item>
+        <item name="android:autoSizeMinTextSize" tools:targetApi="o">12sp</item>
+        <item name="android:autoSizeMaxTextSize" tools:targetApi="o">24sp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@drawable/button_background</item>
-        <item name="android:layout_margin">8dp</item>
-        <item name="android:padding">20dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
     </style>
+
     <style name="CalculatorAdvancedButton" parent="Widget.AppCompat.Button">
-        <item name="android:textSize">20sp</item>
+        <item name="android:autoSizeTextType" tools:targetApi="o">uniform</item>
+        <item name="android:autoSizeMinTextSize" tools:targetApi="o">12sp</item>
+        <item name="android:autoSizeMaxTextSize" tools:targetApi="o">24sp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@drawable/button_background</item>
-        <item name="android:layout_margin">8dp</item>
-        <item name="android:padding">10dp</item>
-    </style>
-    <style name="CalculatorButtonLand" parent="Widget.AppCompat.Button">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@drawable/button_background</item>
-        <item name="android:layout_margin">2dp</item>
-        <item name="android:padding">0dp</item>
-    </style>
-    <style name="CalculatorAdvancedButtonLand" parent="Widget.AppCompat.Button">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@drawable/button_background</item>
-        <item name="android:layout_margin">2dp</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
     </style>
 </resources>
