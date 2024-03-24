@@ -14,6 +14,8 @@ import kotlin.math.*
 class AdvancedCalculatorFragment : Fragment() {
 
     private lateinit var displayTextView: TextView
+    private lateinit var displayOperationTextView: TextView
+    private var displayOperationTextViewSave: String = ""
     private var displayTextSave: String = ""
     private var firstNumber: String = ""
     private var secondNumber: String = ""
@@ -36,7 +38,10 @@ class AdvancedCalculatorFragment : Fragment() {
         super.onSaveInstanceState(outState)
         if (outState != null) {
             displayTextSave = displayTextView.text.toString()
+            displayOperationTextViewSave = displayOperationTextView.text.toString()
+
             outState.putString("displayTextSave", displayTextSave)
+            outState.putString("displayOperationTextViewSave", displayOperationTextViewSave)
             outState.putString("firstNumber", firstNumber)
             outState.putString("secondNumber", secondNumber)
             outState.putString("operation", operation)
@@ -59,6 +64,7 @@ class AdvancedCalculatorFragment : Fragment() {
         if (savedInstanceState != null) {
             savedInstanceState.let {
                 displayTextSave = it.getString("displayTextSave", "")
+                displayOperationTextViewSave = it.getString("displayOperationTextViewSave", "")
                 firstNumber = it.getString("firstNumber", "")
                 secondNumber = it.getString("secondNumber", "")
                 operation = it.getString("operation", "")
@@ -70,6 +76,9 @@ class AdvancedCalculatorFragment : Fragment() {
             }
             displayTextView = view.findViewById(R.id.displayTextView)
             displayTextView.text = displayTextSave
+
+            displayOperationTextView = view.findViewById(R.id.displayTextViewOperation)
+            displayOperationTextView.text = displayOperationTextViewSave
         }
     }
 
@@ -150,6 +159,7 @@ class AdvancedCalculatorFragment : Fragment() {
         if (lastOperation == "") {
             lastOperation = operation
         }
+        displayOperationTextView.text = this.operation
         // example like 2+2+2
         if (!calculated) {
             val number = displayTextView.text.toString()

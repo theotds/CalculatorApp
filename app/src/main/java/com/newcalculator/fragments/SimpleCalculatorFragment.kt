@@ -13,6 +13,8 @@ import com.newcalculator.R
 class SimpleCalculatorFragment : Fragment() {
 
     private lateinit var displayTextView: TextView
+    private lateinit var displayOperationTextView: TextView
+    private var displayOperationTextViewSave: String = ""
     private var displayTextSave: String = ""
     private var firstNumber: String = ""
     private var secondNumber: String = ""
@@ -33,9 +35,12 @@ class SimpleCalculatorFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if(outState!=null){
-            displayTextSave=displayTextView.text.toString()
+        if (outState != null) {
+            displayTextSave = displayTextView.text.toString()
+            displayOperationTextViewSave = displayOperationTextView.text.toString()
+
             outState.putString("displayTextSave", displayTextSave)
+            outState.putString("displayOperationTextViewSave", displayOperationTextViewSave)
             outState.putString("firstNumber", firstNumber)
             outState.putString("secondNumber", secondNumber)
             outState.putString("operation", operation)
@@ -49,7 +54,7 @@ class SimpleCalculatorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getSavedData(savedInstanceState,view)
+        getSavedData(savedInstanceState, view)
         simpleCalculator(view)
     }
 
@@ -57,6 +62,7 @@ class SimpleCalculatorFragment : Fragment() {
         if (savedInstanceState != null) {
             savedInstanceState.let {
                 displayTextSave = it.getString("displayTextSave", "")
+                displayOperationTextViewSave = it.getString("displayOperationTextViewSave", "")
                 firstNumber = it.getString("firstNumber", "")
                 secondNumber = it.getString("secondNumber", "")
                 operation = it.getString("operation", "")
@@ -68,11 +74,15 @@ class SimpleCalculatorFragment : Fragment() {
             }
             displayTextView = view.findViewById(R.id.displayTextView)
             displayTextView.text = displayTextSave
+
+            displayOperationTextView = view.findViewById(R.id.displayTextViewOperation)
+            displayOperationTextView.text = displayOperationTextViewSave
         }
     }
 
     private fun simpleCalculator(view: View) {
         displayTextView = view.findViewById(R.id.displayTextView)
+        displayOperationTextView = view.findViewById(R.id.displayTextViewOperation)
 
         // IDs for number buttons
         val numberButtonsIds = listOf(
@@ -114,12 +124,13 @@ class SimpleCalculatorFragment : Fragment() {
     }
 
     private fun prepareOperation(operation: String) {
-        error=false
+        error = false
         lastOperation = this.operation
         this.operation = operation
         if (lastOperation == "") {
             lastOperation = operation
         }
+        displayOperationTextView.text=this.operation
         // example like 2+2+2
         if (!calculated) {
             val number = displayTextView.text.toString()
@@ -149,7 +160,7 @@ class SimpleCalculatorFragment : Fragment() {
                     if (secondNumber == "0") {
                         Log.d("calc", "Error")
                         displayTextView.text = "Error"
-                        error=true
+                        error = true
                     } else {
                         res /= secondNumber.toDouble()
                     }
@@ -176,7 +187,7 @@ class SimpleCalculatorFragment : Fragment() {
     private fun buttonShowResult() {
         if ((displayTextView.text != "" && secondNumber == "") || !calculated) {
             secondNumber = displayTextView.text.toString()
-            repeat=false
+            repeat = false
         }
         Log.d("resCalc", "$firstNumber $operation $secondNumber")
         calculate(operation)
@@ -186,13 +197,13 @@ class SimpleCalculatorFragment : Fragment() {
 
     private fun clear() {
         if (cleared) {
-            displayTextView.text=""
-            displayTextSave=""
-            firstNumber= ""
+            displayTextView.text = ""
+            displayTextSave = ""
+            firstNumber = ""
             secondNumber = ""
             operation = ""
             lastOperation = ""
-            calculated= false
+            calculated = false
             repeat = false
             cleared = false
             error = false
