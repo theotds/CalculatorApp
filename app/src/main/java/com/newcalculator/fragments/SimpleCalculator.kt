@@ -174,9 +174,6 @@ class SimpleCalculator : AppCompatActivity() {
 
     private fun showResult() {
         if (!error) {
-            if (firstNumber == "") {
-                firstNumber = "0.0"
-            }
             displayTextView.text = firstNumber
             Log.d("result", "$firstNumber ")
         }
@@ -248,7 +245,9 @@ class SimpleCalculator : AppCompatActivity() {
 
     private fun backspace() {
         val text = displayTextView.text
-        displayTextView.text = text.substring(0, text.length - 1)
+        if(text.length>0){
+            displayTextView.text = text.substring(0, text.length - 1)
+        }
     }
 
     private fun appendDecimalPoint() {
