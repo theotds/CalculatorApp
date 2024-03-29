@@ -134,6 +134,9 @@ class SimpleCalculator : AppCompatActivity() {
                 calculate(lastOperation)
                 repeat = true
             }
+        } else if (firstNumber.isEmpty()) {
+            val number = displayTextView.text.toString()
+            firstNumber = number
         }
         calculated = false
         displayTextView.text = ""

@@ -27,11 +27,12 @@ class AdvancedCalculator : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.advanced_calculator)
-        
+
         getSavedData(savedInstanceState)
         simpleCalculator()
         advancedCalculator()
     }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (outState != null) {
@@ -161,6 +162,9 @@ class AdvancedCalculator : AppCompatActivity() {
                 calculate(lastOperation)
                 repeat = true
             }
+        } else if (firstNumber.isEmpty()) {
+            val number = displayTextView.text.toString()
+            firstNumber = number
         }
         calculated = false
         displayTextView.text = ""
@@ -208,9 +212,6 @@ class AdvancedCalculator : AppCompatActivity() {
 
     private fun showResult() {
         if (!error) {
-            if (firstNumber == "") {
-                firstNumber = "0.0"
-            }
             displayTextView.text = firstNumber
             Log.d("result", "$firstNumber ")
         }
@@ -248,7 +249,7 @@ class AdvancedCalculator : AppCompatActivity() {
         operation = ""
         lastOperation = ""
         displayOperationTextView.text = "operation:"
-        displayOperationTextViewSave=""
+        displayOperationTextViewSave = ""
         calculated = false
         repeat = false
         cleared = false
@@ -277,7 +278,9 @@ class AdvancedCalculator : AppCompatActivity() {
 
     private fun backspace() {
         val text = displayTextView.text
-        displayTextView.text = text.substring(0, text.length - 1)
+        if (text.length > 0) {
+            displayTextView.text = text.substring(0, text.length - 1)
+        }
     }
 
     private fun appendDecimalPoint() {
