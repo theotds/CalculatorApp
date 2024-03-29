@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.newcalculator.R
 
@@ -49,6 +50,7 @@ class SimpleCalculator : AppCompatActivity() {
             outState.putBoolean("error", error)
         }
     }
+
     private fun getSavedData(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             savedInstanceState.let {
@@ -150,14 +152,19 @@ class SimpleCalculator : AppCompatActivity() {
                 "/" -> {
                     if (secondNumber == "0") {
                         Log.d("calc", "Error")
-                        displayTextView.text = "Error"
+
+                        val text = "Can't divide by 0!"
+                        val duration = Toast.LENGTH_SHORT
+                        val toast = Toast.makeText(this, text, duration) // in Activity
+                        toast.show()
                         error = true
+                        error()
                     } else {
                         res /= secondNumber.toDouble()
                     }
                 }
             }
-            if (!displayTextView.text.equals("Error") && secondNumber != "" && !error) {
+            if (secondNumber != "" && !error) {
                 Log.d("calc", "$firstNumber $op $secondNumber")
                 firstNumber = res.toString()
                 Log.d("result", "=$firstNumber")
@@ -166,7 +173,7 @@ class SimpleCalculator : AppCompatActivity() {
     }
 
     private fun showResult() {
-        if (displayTextView.text != "Error" && !error) {
+        if (!error) {
             if (firstNumber == "") {
                 firstNumber = "0.0"
             }
@@ -186,18 +193,14 @@ class SimpleCalculator : AppCompatActivity() {
         calculated = true
     }
 
+    private fun error() {
+        fullClear()
+        Log.d("errorClear", "empty")
+    }
+
     private fun clear() {
         if (cleared) {
-            displayTextView.text = ""
-            displayTextSave = ""
-            firstNumber = ""
-            secondNumber = ""
-            operation = ""
-            lastOperation = ""
-            calculated = false
-            repeat = false
-            cleared = false
-            error = false
+            fullClear()
             Log.d("clear2", "empty")
         } else {
             secondNumber = ""
@@ -206,6 +209,21 @@ class SimpleCalculator : AppCompatActivity() {
             error = false
             Log.d("clear1", "empty textView, $firstNumber, $operation $secondNumber")
         }
+    }
+
+    private fun fullClear() {
+        displayTextView.text = ""
+        displayTextSave = ""
+        firstNumber = ""
+        secondNumber = ""
+        operation = ""
+        lastOperation = ""
+        displayOperationTextView.text = "operation:"
+        displayOperationTextViewSave = ""
+        calculated = false
+        repeat = false
+        cleared = false
+        error = false
     }
 
     private fun negateNumber() {

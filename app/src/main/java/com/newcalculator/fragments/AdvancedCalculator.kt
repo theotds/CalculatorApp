@@ -316,8 +316,13 @@ class AdvancedCalculator : AppCompatActivity() {
             if (result.isFinite()) {
                 firstNumber = result.toString()
             } else {
-                displayTextView.text = "Error"
+
+                val text = "tan of 90 is infinite"
+                val duration = Toast.LENGTH_SHORT
+                val toast = Toast.makeText(this, text, duration) // in Activity
+                toast.show()
                 error = true
+                error()
             }
         }
         showResult()
@@ -338,6 +343,10 @@ class AdvancedCalculator : AppCompatActivity() {
                 val result = sqrt(it)
                 displayTextView.text = result.toString()
             } else {
+                val text = "sqrt of a number must be higher or equal 0"
+                val duration = Toast.LENGTH_SHORT
+                val toast = Toast.makeText(this, text, duration) // in Activity
+                toast.show()
                 error = true
                 error()
             }
@@ -350,6 +359,10 @@ class AdvancedCalculator : AppCompatActivity() {
                 val result = log10(it)
                 displayTextView.text = result.toString()
             } else {
+                val text = "log of a number must be higher than 0"
+                val duration = Toast.LENGTH_SHORT
+                val toast = Toast.makeText(this, text, duration) // in Activity
+                toast.show()
                 error = true
                 error()
             }
@@ -363,6 +376,11 @@ class AdvancedCalculator : AppCompatActivity() {
                 val result = ln(it)
                 displayTextView.text = result.toString()
             } else {
+
+                val text = "ln of a number must be higher than 0"
+                val duration = Toast.LENGTH_SHORT
+                val toast = Toast.makeText(this, text, duration) // in Activity
+                toast.show()
                 error = true
                 error()
             }
