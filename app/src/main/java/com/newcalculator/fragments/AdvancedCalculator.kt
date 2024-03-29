@@ -150,7 +150,7 @@ class AdvancedCalculator : AppCompatActivity() {
         if (lastOperation == "") {
             lastOperation = operation
         }
-        displayOperationTextView.text = this.operation
+        displayOperationTextView.text = "operation: " + this.operation
         // example like 2+2+2
         if (!calculated) {
             val number = displayTextView.text.toString()
@@ -247,6 +247,8 @@ class AdvancedCalculator : AppCompatActivity() {
         secondNumber = ""
         operation = ""
         lastOperation = ""
+        displayOperationTextView.text = "operation:"
+        displayOperationTextViewSave=""
         calculated = false
         repeat = false
         cleared = false

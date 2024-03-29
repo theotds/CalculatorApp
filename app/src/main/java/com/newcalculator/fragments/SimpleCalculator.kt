@@ -121,7 +121,7 @@ class SimpleCalculator : AppCompatActivity() {
         if (lastOperation == "") {
             lastOperation = operation
         }
-        displayOperationTextView.text=this.operation
+        displayOperationTextView.text = "operation: " + this.operation
         // example like 2+2+2
         if (!calculated) {
             val number = displayTextView.text.toString()
