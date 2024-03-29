@@ -2,16 +2,13 @@ package com.newcalculator.fragments
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.newcalculator.R
-import kotlin.math.*
 
-class AdvancedCalculatorFragment : Fragment() {
+class SimpleCalculator : AppCompatActivity() {
 
     private lateinit var displayTextView: TextView
     private lateinit var displayOperationTextView: TextView
@@ -26,12 +23,12 @@ class AdvancedCalculatorFragment : Fragment() {
     private var cleared: Boolean = false
     private var error: Boolean = false
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_advanced_calculator, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.simple_calculator)
+
+        getSavedData(savedInstanceState)
+        simpleCalculator()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -52,15 +49,7 @@ class AdvancedCalculatorFragment : Fragment() {
             outState.putBoolean("error", error)
         }
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        getSavedData(savedInstanceState, view)
-        simpleCalculator(view)
-        advancedCalculator(view)
-    }
-
-    private fun getSavedData(savedInstanceState: Bundle?, view: View) {
+    private fun getSavedData(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             savedInstanceState.let {
                 displayTextSave = it.getString("displayTextSave", "")
@@ -74,44 +63,17 @@ class AdvancedCalculatorFragment : Fragment() {
                 cleared = it.getBoolean("cleared", false)
                 error = it.getBoolean("error", false)
             }
-            displayTextView = view.findViewById(R.id.displayTextView)
+            displayTextView = findViewById(R.id.displayTextView)
             displayTextView.text = displayTextSave
 
-            displayOperationTextView = view.findViewById(R.id.displayTextViewOperation)
+            displayOperationTextView = findViewById(R.id.displayTextViewOperation)
             displayOperationTextView.text = displayOperationTextViewSave
         }
     }
 
-    private fun advancedCalculator(view: View) {
-        val sinButton: Button = view.findViewById(R.id.sinButton)
-        val cosButton: Button = view.findViewById(R.id.cosButton)
-        val tanButton: Button = view.findViewById(R.id.tanButton)
-        val percentageButton: Button = view.findViewById(R.id.percentButton)
-        val sqrtButton: Button = view.findViewById(R.id.sqrtButton)
-        val powerButton: Button = view.findViewById(R.id.powButton)
-        val powerYButton: Button = view.findViewById(R.id.powYButton)
-        val logButton: Button = view.findViewById(R.id.logButton)
-        val lnButton: Button = view.findViewById(R.id.lnButton)
-
-        sinButton.setOnClickListener { calculateSin() }
-        cosButton.setOnClickListener { calculateCos() }
-        tanButton.setOnClickListener { calculateTan() }
-        percentageButton.setOnClickListener { calculatePercentage() }
-        sqrtButton.setOnClickListener { calculateSqrt() }
-        logButton.setOnClickListener { calculateLog() }
-        lnButton.setOnClickListener { calculateLn() }
-        powerYButton.setOnClickListener { prepareOperation("pow") }
-        powerButton.setOnClickListener { calculatePow() }
-
-    }
-
-    private fun calculatePow() {
-        firstNumber = displayTextView.text.toString().toDouble().pow(2).toString()
-        showResult()
-    }
-
-    private fun simpleCalculator(view: View) {
-        displayTextView = view.findViewById(R.id.displayTextView)
+    private fun simpleCalculator() {
+        displayTextView = findViewById(R.id.displayTextView)
+        displayOperationTextView = findViewById(R.id.displayTextViewOperation)
 
         // IDs for number buttons
         val numberButtonsIds = listOf(
@@ -119,7 +81,7 @@ class AdvancedCalculatorFragment : Fragment() {
             R.id.button5, R.id.button6, R.id.button7, R.id.button8, R.id.button9
         )
 
-        val decimalButton = view.findViewById<Button>(R.id.decimalButton)
+        val decimalButton = findViewById<Button>(R.id.decimalButton)
         decimalButton.setOnClickListener { appendDecimalPoint() }
 
         val operationButtonsIdsToOperation = mapOf(
@@ -130,36 +92,36 @@ class AdvancedCalculatorFragment : Fragment() {
         )
 
         numberButtonsIds.forEach { id ->
-            view.findViewById<Button>(id)
+            findViewById<Button>(id)
                 .setOnClickListener { appendNumber((it as Button).text.toString()) }
         }
 
         operationButtonsIdsToOperation.forEach { (id, operation) ->
-            view.findViewById<Button>(id).setOnClickListener {
+            findViewById<Button>(id).setOnClickListener {
                 prepareOperation(operation)
             }
         }
 
-        view.findViewById<Button>(R.id.clearButton).setOnClickListener { clear() }
-        view.findViewById<Button>(R.id.equalsButton).setOnClickListener {
+        findViewById<Button>(R.id.clearButton).setOnClickListener { clear() }
+        findViewById<Button>(R.id.equalsButton).setOnClickListener {
             buttonShowResult()
         }
 
-        val buttonNegate = view.findViewById<Button>(R.id.negativeButton)
+        val buttonNegate = findViewById<Button>(R.id.negativeButton)
         buttonNegate.setOnClickListener { negateNumber() }
 
-        val buttonBackSpace = view.findViewById<Button>(R.id.backSpaceButton)
+        val buttonBackSpace = findViewById<Button>(R.id.backSpaceButton)
         buttonBackSpace.setOnClickListener { backspace() }
     }
 
     private fun prepareOperation(operation: String) {
-        lastOperation = this.operation
         error = false
+        lastOperation = this.operation
         this.operation = operation
         if (lastOperation == "") {
             lastOperation = operation
         }
-        displayOperationTextView.text = this.operation
+        displayOperationTextView.text=this.operation
         // example like 2+2+2
         if (!calculated) {
             val number = displayTextView.text.toString()
@@ -187,15 +149,12 @@ class AdvancedCalculatorFragment : Fragment() {
 
                 "/" -> {
                     if (secondNumber == "0") {
+                        Log.d("calc", "Error")
                         displayTextView.text = "Error"
                         error = true
                     } else {
                         res /= secondNumber.toDouble()
                     }
-                }
-
-                "pow" -> {
-                    res = firstNumber.toDouble().pow(secondNumber.toDouble())
                 }
             }
             if (!displayTextView.text.equals("Error") && secondNumber != "" && !error) {
@@ -280,85 +239,6 @@ class AdvancedCalculatorFragment : Fragment() {
                 displayTextView.append("0.")
             } else {
                 displayTextView.append(".")
-            }
-        }
-    }
-
-    private fun calculateSin() {
-        val currentText = displayTextView.text.toString()
-        currentText.toDoubleOrNull()?.let {
-            val result = sin(Math.toRadians(it))
-            firstNumber = result.toString()
-        }
-        showResult()
-    }
-
-    private fun calculateCos() {
-        val currentText = displayTextView.text.toString()
-        currentText.toDoubleOrNull()?.let {
-            val result = cos(Math.toRadians(it))
-            firstNumber = result.toString()
-        }
-        showResult()
-    }
-
-    private fun calculateTan() {
-        val currentText = displayTextView.text.toString()
-        currentText.toDoubleOrNull()?.let {
-            val result = tan(Math.toRadians(it))
-            // Check for undefined result which occurs at 90°, 270°, etc.
-            if (result.isFinite()) {
-                firstNumber = result.toString()
-            } else {
-                displayTextView.text = "Error"
-                error = true
-            }
-        }
-        showResult()
-    }
-
-    private fun calculatePercentage() {
-        val currentText = displayTextView.text.toString()
-        currentText.toDoubleOrNull()?.let {
-            val result = it / 100
-            displayTextView.text = result.toString()
-        }
-    }
-
-    private fun calculateSqrt() {
-        val currentText = displayTextView.text.toString()
-        currentText.toDoubleOrNull()?.let {
-            if (it >= 0) {
-                val result = sqrt(it)
-                displayTextView.text = result.toString()
-            } else {
-                displayTextView.text = "Error"
-                error = true
-            }
-        }
-    }
-
-    private fun calculateLog() {
-        displayTextView.text.toString().toDoubleOrNull()?.let {
-            if (it > 0) { // Logarithm is only defined for positive numbers
-                val result = log10(it)
-                displayTextView.text = result.toString()
-            } else {
-                displayTextView.text = "Error"
-                error = true
-            }
-        }
-    }
-
-    // Natural logarithm calculation
-    private fun calculateLn() {
-        displayTextView.text.toString().toDoubleOrNull()?.let {
-            if (it > 0) { // Natural logarithm is only defined for positive numbers
-                val result = ln(it)
-                displayTextView.text = result.toString()
-            } else {
-                displayTextView.text = "Error"
-                error = true
             }
         }
     }
