@@ -180,7 +180,11 @@ class SimpleCalculator : AppCompatActivity() {
 
     private fun showResult() {
         if (!error) {
-            displayTextView.text = firstNumber
+            val number = firstNumber.toDoubleOrNull()
+            number?.let {
+                displayTextView.text =
+                    if (number % 1.0 == 0.0) number.toInt().toString() else number.toString()
+            }
             Log.d("result", "$firstNumber ")
         }
     }
@@ -232,13 +236,15 @@ class SimpleCalculator : AppCompatActivity() {
 
     private fun negateNumber() {
         val currentText = displayTextView.text.toString()
-        // Check if the string is not empty and is a valid number
         if (currentText.isNotEmpty() && currentText.toDoubleOrNull() != null) {
             val number = currentText.toDouble()
             val negatedNumber = -number
-            displayTextView.text = negatedNumber.toString()
+
+            displayTextView.text = if (number % 1.0 == 0.0) negatedNumber.toInt()
+                .toString() else negatedNumber.toString()
             if (calculated) {
-                firstNumber = negatedNumber.toString()
+                firstNumber = if (number % 1.0 == 0.0) negatedNumber.toInt()
+                    .toString() else negatedNumber.toString()
             }
         }
     }

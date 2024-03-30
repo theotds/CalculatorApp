@@ -110,8 +110,16 @@ class AdvancedCalculator : AppCompatActivity() {
 
         // IDs for number buttons
         val numberButtonsIds = listOf(
-            R.id.button0, R.id.button1, R.id.button2, R.id.button3, R.id.button4,
-            R.id.button5, R.id.button6, R.id.button7, R.id.button8, R.id.button9
+            R.id.button0,
+            R.id.button1,
+            R.id.button2,
+            R.id.button3,
+            R.id.button4,
+            R.id.button5,
+            R.id.button6,
+            R.id.button7,
+            R.id.button8,
+            R.id.button9
         )
 
         val decimalButton = findViewById<Button>(R.id.decimalButton)
@@ -125,8 +133,7 @@ class AdvancedCalculator : AppCompatActivity() {
         )
 
         numberButtonsIds.forEach { id ->
-            findViewById<Button>(id)
-                .setOnClickListener { appendNumber((it as Button).text.toString()) }
+            findViewById<Button>(id).setOnClickListener { appendNumber((it as Button).text.toString()) }
         }
 
         operationButtonsIdsToOperation.forEach { (id, operation) ->
@@ -215,7 +222,11 @@ class AdvancedCalculator : AppCompatActivity() {
 
     private fun showResult() {
         if (!error) {
-            displayTextView.text = firstNumber
+            val number = firstNumber.toDoubleOrNull()
+            number?.let {
+                displayTextView.text =
+                    if (number % 1.0 == 0.0) number.toInt().toString() else number.toString()
+            }
             Log.d("result", "$firstNumber ")
         }
     }
@@ -262,13 +273,15 @@ class AdvancedCalculator : AppCompatActivity() {
 
     private fun negateNumber() {
         val currentText = displayTextView.text.toString()
-        // Check if the string is not empty and is a valid number
         if (currentText.isNotEmpty() && currentText.toDoubleOrNull() != null) {
             val number = currentText.toDouble()
             val negatedNumber = -number
-            displayTextView.text = negatedNumber.toString()
+
+            displayTextView.text = if (number % 1.0 == 0.0) negatedNumber.toInt()
+                .toString() else negatedNumber.toString()
             if (calculated) {
-                firstNumber = negatedNumber.toString()
+                firstNumber = if (number % 1.0 == 0.0) negatedNumber.toInt()
+                    .toString() else negatedNumber.toString()
             }
         }
     }
@@ -318,6 +331,7 @@ class AdvancedCalculator : AppCompatActivity() {
             firstNumber = result.toString()
         }
         showResult()
+        calculated=true
     }
 
     private fun calculateCos() {
@@ -327,6 +341,7 @@ class AdvancedCalculator : AppCompatActivity() {
             firstNumber = result.toString()
         }
         showResult()
+        calculated=true
     }
 
     private fun calculateTan() {
@@ -336,6 +351,7 @@ class AdvancedCalculator : AppCompatActivity() {
             // Check for undefined result which occurs at 90°, 270°, etc.
             if (result.isFinite()) {
                 firstNumber = result.toString()
+                calculated = true
             } else {
 
                 val text = "tan of 90 is infinite"
@@ -353,7 +369,9 @@ class AdvancedCalculator : AppCompatActivity() {
         val currentText = displayTextView.text.toString()
         currentText.toDoubleOrNull()?.let {
             val result = it / 100
-            displayTextView.text = result.toString()
+            displayTextView.text =
+                if (result % 1.0 == 0.0) result.toInt().toString() else result.toString()
+            calculated = true
         }
     }
 
@@ -362,7 +380,9 @@ class AdvancedCalculator : AppCompatActivity() {
         currentText.toDoubleOrNull()?.let {
             if (it >= 0) {
                 val result = sqrt(it)
-                displayTextView.text = result.toString()
+                displayTextView.text =
+                    if (result % 1.0 == 0.0) result.toInt().toString() else result.toString()
+                calculated = true
             } else {
                 val text = "sqrt of a number must be higher or equal 0"
                 val duration = Toast.LENGTH_SHORT
@@ -378,7 +398,9 @@ class AdvancedCalculator : AppCompatActivity() {
         displayTextView.text.toString().toDoubleOrNull()?.let {
             if (it > 0) { // Logarithm is only defined for positive numbers
                 val result = log10(it)
-                displayTextView.text = result.toString()
+                displayTextView.text =
+                    if (result % 1.0 == 0.0) result.toInt().toString() else result.toString()
+                calculated = true
             } else {
                 val text = "log of a number must be higher than 0"
                 val duration = Toast.LENGTH_SHORT
@@ -395,9 +417,10 @@ class AdvancedCalculator : AppCompatActivity() {
         displayTextView.text.toString().toDoubleOrNull()?.let {
             if (it > 0) { // Natural logarithm is only defined for positive numbers
                 val result = ln(it)
-                displayTextView.text = result.toString()
+                displayTextView.text =
+                    if (result % 1.0 == 0.0) result.toInt().toString() else result.toString()
+                calculated = true
             } else {
-
                 val text = "ln of a number must be higher than 0"
                 val duration = Toast.LENGTH_SHORT
                 val toast = Toast.makeText(this, text, duration) // in Activity
