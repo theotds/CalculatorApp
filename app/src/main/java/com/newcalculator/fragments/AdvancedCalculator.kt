@@ -23,6 +23,7 @@ class AdvancedCalculator : AppCompatActivity() {
     private var repeat: Boolean = false
     private var cleared: Boolean = false
     private var error: Boolean = false
+    private var operationClicked: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +49,7 @@ class AdvancedCalculator : AppCompatActivity() {
             outState.putBoolean("repeat", repeat)
             outState.putBoolean("cleared", cleared)
             outState.putBoolean("error", error)
+            outState.putBoolean("operationClicked", operationClicked)
         }
     }
 
@@ -64,6 +66,7 @@ class AdvancedCalculator : AppCompatActivity() {
                 repeat = it.getBoolean("repeat", false)
                 cleared = it.getBoolean("cleared", false)
                 error = it.getBoolean("error", false)
+                operationClicked = it.getBoolean("operationClicked", false)
             }
             displayTextView = findViewById(R.id.displayTextView)
             displayTextView.text = displayTextSave
@@ -167,7 +170,7 @@ class AdvancedCalculator : AppCompatActivity() {
             firstNumber = number
         }
         calculated = false
-        displayTextView.text = ""
+        operationClicked = true
     }
 
     private fun calculate(op: String) {
@@ -254,6 +257,7 @@ class AdvancedCalculator : AppCompatActivity() {
         repeat = false
         cleared = false
         error = false
+        operationClicked = false
     }
 
     private fun negateNumber() {
@@ -270,6 +274,13 @@ class AdvancedCalculator : AppCompatActivity() {
     }
 
     private fun appendNumber(number: String) {
+        if (operationClicked) {
+            displayTextView.text = ""
+            operationClicked = false
+        }
+        if (calculated) {
+            fullClear()
+        }
         if (!(number != "0" && displayTextView.text.toString() == "0")) {
             displayTextView.append(number)
             cleared = false
@@ -285,8 +296,15 @@ class AdvancedCalculator : AppCompatActivity() {
 
     private fun appendDecimalPoint() {
         if (!displayTextView.text.contains(".")) {
+            if (operationClicked) {
+                displayTextView.text = ""
+                operationClicked = false
+            }
+            if (calculated) {
+                fullClear()
+            }
             if (displayTextView.text.isEmpty()) {
-                displayTextView.append("0")
+                displayTextView.append("0.")
             } else {
                 displayTextView.append(".")
             }
