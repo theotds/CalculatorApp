@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         setupUI()
     }
 
-    fun setupUI(){
+    fun setupUI() {
         findViewById<Button>(R.id.simpleCalculatorButton).setOnClickListener {
             val intent = Intent(this, SimpleCalculator::class.java)
             startActivity(intent)
@@ -34,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         val exitButton = findViewById<Button>(R.id.exit)
-        exitButton.setOnClickListener { exitProcess(0) }
+        exitButton.setOnClickListener {
+            finish()
+        }
     }
 }
