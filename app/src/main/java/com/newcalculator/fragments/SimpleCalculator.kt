@@ -245,14 +245,16 @@ class SimpleCalculator : AppCompatActivity() {
     private fun negateNumber() {
         val currentText = displayTextView.text.toString()
         if (currentText.isNotEmpty() && currentText.toDoubleOrNull() != null) {
-            val number = currentText.toDouble()
+            val number = BigDecimal(currentText)
             val negatedNumber = -number
 
-            displayTextView.text = if (number % 1.0 == 0.0) negatedNumber.toInt()
-                .toString() else negatedNumber.toString()
-            if (calculated) {
-                firstNumber = if (number % 1.0 == 0.0) negatedNumber.toInt()
-                    .toString() else negatedNumber.toString()
+            val isWholeNumber =
+                negatedNumber.scale() <= 0 || negatedNumber.stripTrailingZeros().scale() <= 0
+
+            displayTextView.text = if (isWholeNumber) {
+                negatedNumber.toBigInteger().toString()
+            } else {
+                negatedNumber.stripTrailingZeros().toPlainString()
             }
         }
     }

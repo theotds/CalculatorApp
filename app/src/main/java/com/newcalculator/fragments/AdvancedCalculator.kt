@@ -278,14 +278,16 @@ class AdvancedCalculator : AppCompatActivity() {
     private fun negateNumber() {
         val currentText = displayTextView.text.toString()
         if (currentText.isNotEmpty() && currentText.toDoubleOrNull() != null) {
-            val number = currentText.toDouble()
+            val number = BigDecimal(currentText)
             val negatedNumber = -number
 
-            displayTextView.text = if (number % 1.0 == 0.0) negatedNumber.toInt()
-                .toString() else negatedNumber.toString()
-            if (calculated) {
-                firstNumber = if (number % 1.0 == 0.0) negatedNumber.toInt()
-                    .toString() else negatedNumber.toString()
+            val isWholeNumber =
+                negatedNumber.scale() <= 0 || negatedNumber.stripTrailingZeros().scale() <= 0
+
+            displayTextView.text = if (isWholeNumber) {
+                negatedNumber.toBigInteger().toString()
+            } else {
+                negatedNumber.stripTrailingZeros().toPlainString()
             }
         }
     }
@@ -379,8 +381,7 @@ class AdvancedCalculator : AppCompatActivity() {
         val currentText = displayTextView.text.toString()
         currentText.toDoubleOrNull()?.let {
             val result = it / 100
-            displayTextView.text =
-                if (result % 1.0 == 0.0) result.toInt().toString() else result.toString()
+            displayTextView.text = BigDecimal.valueOf(result).stripTrailingZeros().toPlainString()
             calculated = true
         }
     }
@@ -412,7 +413,7 @@ class AdvancedCalculator : AppCompatActivity() {
             if (it > 0) { // Logarithm is only defined for positive numbers
                 val result = log10(it)
                 displayTextView.text =
-                    if (result % 1.0 == 0.0) result.toInt().toString() else result.toString()
+                    BigDecimal.valueOf(result).stripTrailingZeros().toPlainString()
                 calculated = true
             } else {
                 val text = "log of a number must be higher than 0"
@@ -431,7 +432,7 @@ class AdvancedCalculator : AppCompatActivity() {
             if (it > 0) { // Natural logarithm is only defined for positive numbers
                 val result = ln(it)
                 displayTextView.text =
-                    if (result % 1.0 == 0.0) result.toInt().toString() else result.toString()
+                    BigDecimal.valueOf(result).stripTrailingZeros().toPlainString()
                 calculated = true
             } else {
                 val text = "ln of a number must be higher than 0"
