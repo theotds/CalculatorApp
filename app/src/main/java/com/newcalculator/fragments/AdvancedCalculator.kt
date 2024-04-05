@@ -164,7 +164,7 @@ class AdvancedCalculator : AppCompatActivity() {
         }
         displayOperationTextView.text = "operation: " + this.operation
         // example like 2+2+2
-        if (!calculated) {
+        if (!calculated && !operationClicked) {
             val number = displayTextView.text.toString()
             if (firstNumber.isEmpty()) {
                 firstNumber = number
