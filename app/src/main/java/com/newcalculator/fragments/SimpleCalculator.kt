@@ -2,7 +2,6 @@ package com.newcalculator.fragments
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -37,22 +36,21 @@ class SimpleCalculator : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (outState != null) {
-            displayTextSave = displayTextView.text.toString()
-            displayOperationTextViewSave = displayOperationTextView.text.toString()
+        displayTextSave = displayTextView.text.toString()
+        displayOperationTextViewSave = displayOperationTextView.text.toString()
 
-            outState.putString("displayTextSave", displayTextSave)
-            outState.putString("displayOperationTextViewSave", displayOperationTextViewSave)
-            outState.putString("firstNumber", firstNumber)
-            outState.putString("secondNumber", secondNumber)
-            outState.putString("operation", operation)
-            outState.putString("lastOperation", lastOperation)
-            outState.putBoolean("calculated", calculated)
-            outState.putBoolean("repeat", repeat)
-            outState.putBoolean("cleared", cleared)
-            outState.putBoolean("error", error)
-            outState.putBoolean("operationClicked", operationClicked)
-        }
+        outState.putString("displayTextSave", displayTextSave)
+        outState.putString("displayOperationTextViewSave", displayOperationTextViewSave)
+        outState.putString("firstNumber", firstNumber)
+        outState.putString("secondNumber", secondNumber)
+        outState.putString("operation", operation)
+        outState.putString("lastOperation", lastOperation)
+        outState.putBoolean("calculated", calculated)
+        outState.putBoolean("repeat", repeat)
+        outState.putBoolean("cleared", cleared)
+        outState.putBoolean("error", error)
+        outState.putBoolean("operationClicked", operationClicked)
+
     }
 
     private fun getSavedData(savedInstanceState: Bundle?) {
@@ -128,7 +126,7 @@ class SimpleCalculator : AppCompatActivity() {
         if (lastOperation == "") {
             lastOperation = operation
         }
-        displayOperationTextView.text = "operation: " + this.operation
+        displayOperationTextView.text = "operation: ${this.operation}"
         // example like 2+2+2
         if (!calculated && !operationClicked) {
             val number = displayTextView.text.toString()

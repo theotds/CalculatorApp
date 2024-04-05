@@ -37,21 +37,19 @@ class AdvancedCalculator : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (outState != null) {
-            displayTextSave = displayTextView.text.toString()
-            displayOperationTextViewSave = displayOperationTextView.text.toString()
-            outState.putString("displayTextSave", displayTextSave)
-            outState.putString("displayOperationTextViewSave", displayOperationTextViewSave)
-            outState.putString("firstNumber", firstNumber)
-            outState.putString("secondNumber", secondNumber)
-            outState.putString("operation", operation)
-            outState.putString("lastOperation", lastOperation)
-            outState.putBoolean("calculated", calculated)
-            outState.putBoolean("repeat", repeat)
-            outState.putBoolean("cleared", cleared)
-            outState.putBoolean("error", error)
-            outState.putBoolean("operationClicked", operationClicked)
-        }
+        displayTextSave = displayTextView.text.toString()
+        displayOperationTextViewSave = displayOperationTextView.text.toString()
+        outState.putString("displayTextSave", displayTextSave)
+        outState.putString("displayOperationTextViewSave", displayOperationTextViewSave)
+        outState.putString("firstNumber", firstNumber)
+        outState.putString("secondNumber", secondNumber)
+        outState.putString("operation", operation)
+        outState.putString("lastOperation", lastOperation)
+        outState.putBoolean("calculated", calculated)
+        outState.putBoolean("repeat", repeat)
+        outState.putBoolean("cleared", cleared)
+        outState.putBoolean("error", error)
+        outState.putBoolean("operationClicked", operationClicked)
     }
 
     private fun getSavedData(savedInstanceState: Bundle?) {
@@ -162,7 +160,7 @@ class AdvancedCalculator : AppCompatActivity() {
         if (lastOperation == "") {
             lastOperation = operation
         }
-        displayOperationTextView.text = "operation: " + this.operation
+        displayOperationTextView.text = "operation: ${this.operation}"
         // example like 2+2+2
         if (!calculated && !operationClicked) {
             val number = displayTextView.text.toString()
@@ -308,7 +306,7 @@ class AdvancedCalculator : AppCompatActivity() {
 
     private fun backspace() {
         val text = displayTextView.text
-        if (text.length > 0) {
+        if (text.isNotEmpty()) {
             displayTextView.text = text.substring(0, text.length - 1)
         }
     }
