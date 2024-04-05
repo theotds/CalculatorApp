@@ -7,6 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.newcalculator.R
+import java.math.BigDecimal
 import kotlin.math.*
 
 class AdvancedCalculator : AppCompatActivity() {
@@ -222,12 +223,17 @@ class AdvancedCalculator : AppCompatActivity() {
 
     private fun showResult() {
         if (!error) {
-            val number = firstNumber.toDoubleOrNull()
-            number?.let {
-                displayTextView.text =
-                    if (number % 1.0 == 0.0) number.toInt().toString() else number.toString()
+            val number = BigDecimal(firstNumber)
+
+            val isWholeNumber = number.scale() <= 0 || number.stripTrailingZeros().scale() <= 0
+
+            displayTextView.text = if (isWholeNumber) {
+                number.toBigInteger().toString()
+            } else {
+                number.stripTrailingZeros().toPlainString()
             }
-            Log.d("result", "$firstNumber ")
+
+            Log.d("result", displayTextView.text.toString())
         }
     }
 
@@ -327,43 +333,49 @@ class AdvancedCalculator : AppCompatActivity() {
     private fun calculateSin() {
         val currentText = displayTextView.text.toString()
         currentText.toDoubleOrNull()?.let {
-            val result = sin(Math.toRadians(it))
-            firstNumber = result.toString()
+            val radians = Math.toRadians(it)
+            val result = sin(radians)
+            firstNumber = BigDecimal.valueOf(result).stripTrailingZeros().toPlainString()
+            showResult()
+        } ?: run {
+            showToast("Invalid Input")
+            error = true
         }
-        showResult()
-        calculated=true
     }
 
     private fun calculateCos() {
         val currentText = displayTextView.text.toString()
         currentText.toDoubleOrNull()?.let {
-            val result = cos(Math.toRadians(it))
-            firstNumber = result.toString()
+            val radians = Math.toRadians(it)
+            val result = cos(radians)
+            firstNumber = BigDecimal.valueOf(result).stripTrailingZeros().toPlainString()
+            showResult()
+        } ?: run {
+            showToast("Invalid Input")
+            error = true
         }
-        showResult()
-        calculated=true
     }
+
 
     private fun calculateTan() {
         val currentText = displayTextView.text.toString()
         currentText.toDoubleOrNull()?.let {
-            val result = tan(Math.toRadians(it))
-            // Check for undefined result which occurs at 90°, 270°, etc.
-            if (result.isFinite()) {
-                firstNumber = result.toString()
-                calculated = true
-            } else {
-
-                val text = "tan of 90 is infinite"
-                val duration = Toast.LENGTH_SHORT
-                val toast = Toast.makeText(this, text, duration) // in Activity
-                toast.show()
+            val radians = Math.toRadians(it)
+            // Check if the input is an odd multiple of π/2 to avoid infinite results
+            if ((radians / (Math.PI / 2)) % 2 == 1.0) {
+                showToast("Undefined")
                 error = true
-                error()
+            } else {
+                val result = tan(radians)
+                firstNumber = BigDecimal.valueOf(result).stripTrailingZeros().toPlainString()
+                showResult()
             }
+        } ?: run {
+            showToast("Invalid Input")
+            error = true
         }
-        showResult()
     }
+
 
     private fun calculatePercentage() {
         val currentText = displayTextView.text.toString()
@@ -375,22 +387,25 @@ class AdvancedCalculator : AppCompatActivity() {
         }
     }
 
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
     private fun calculateSqrt() {
         val currentText = displayTextView.text.toString()
-        currentText.toDoubleOrNull()?.let {
-            if (it >= 0) {
-                val result = sqrt(it)
-                displayTextView.text =
-                    if (result % 1.0 == 0.0) result.toInt().toString() else result.toString()
-                calculated = true
+        try {
+            val number = BigDecimal(currentText)
+            if (number >= BigDecimal.ZERO) {
+                val result = sqrt(number.toDouble())
+                firstNumber = BigDecimal.valueOf(result).stripTrailingZeros().toPlainString()
+                showResult()
             } else {
-                val text = "sqrt of a number must be higher or equal 0"
-                val duration = Toast.LENGTH_SHORT
-                val toast = Toast.makeText(this, text, duration) // in Activity
-                toast.show()
+                showToast("sqrt of a number must be higher or equal to 0")
                 error = true
-                error()
             }
+        } catch (e: NumberFormatException) {
+            showToast("Invalid Number")
+            error = true
         }
     }
 

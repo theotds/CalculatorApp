@@ -8,6 +8,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.newcalculator.R
+import java.math.BigDecimal
+import java.math.MathContext
 
 class SimpleCalculator : AppCompatActivity() {
 
@@ -147,47 +149,55 @@ class SimpleCalculator : AppCompatActivity() {
 
     private fun calculate(op: String) {
         if (firstNumber.isNotEmpty() && secondNumber.isNotEmpty() && op.isNotEmpty()) {
-            var res: Double = firstNumber.toDouble()
+            val firstNum = BigDecimal(firstNumber)
+            val secondNum = BigDecimal(secondNumber)
+            var result = BigDecimal.ZERO
+
             when (op) {
-                "+" -> res += secondNumber.toDouble()
-
-                "-" -> res -= secondNumber.toDouble()
-
-                "*" -> res *= secondNumber.toDouble()
-
+                "+" -> result = firstNum.add(secondNum)
+                "-" -> result = firstNum.subtract(secondNum)
+                "*" -> result = firstNum.multiply(secondNum)
                 "/" -> {
-                    if (secondNumber == "0") {
+                    if (secondNum.compareTo(BigDecimal.ZERO) == 0) {
                         Log.d("calc", "Error")
-
-                        val text = "Can't divide by 0!"
-                        val duration = Toast.LENGTH_SHORT
-                        val toast = Toast.makeText(this, text, duration) // in Activity
-                        toast.show()
+                        showToast("Can't divide by 0!")
                         error = true
                         error()
+                        return
                     } else {
-                        res /= secondNumber.toDouble()
+                        result = firstNum.divide(secondNum, MathContext.DECIMAL64)
                     }
                 }
             }
-            if (secondNumber != "" && !error) {
-                Log.d("calc", "$firstNumber $op $secondNumber")
-                firstNumber = res.toString()
-                Log.d("result", "=$firstNumber")
+
+            if (!error) {
+                Log.d("calc", "$firstNumber $op $secondNumber = $result")
+                firstNumber = result.stripTrailingZeros().toPlainString()
+                showResult()
             }
         }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun showResult() {
         if (!error) {
-            val number = firstNumber.toDoubleOrNull()
-            number?.let {
-                displayTextView.text =
-                    if (number % 1.0 == 0.0) number.toInt().toString() else number.toString()
+            val number = BigDecimal(firstNumber)
+
+            val isWholeNumber = number.scale() <= 0 || number.stripTrailingZeros().scale() <= 0
+
+            displayTextView.text = if (isWholeNumber) {
+                number.toBigInteger().toString()
+            } else {
+                number.stripTrailingZeros().toPlainString()
             }
-            Log.d("result", "$firstNumber ")
+
+            Log.d("result", displayTextView.text.toString())
         }
     }
+
 
     private fun buttonShowResult() {
         if ((displayTextView.text != "" && secondNumber == "") || !calculated) {
