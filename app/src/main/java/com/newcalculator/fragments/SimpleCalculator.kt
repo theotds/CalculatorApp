@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.newcalculator.R
 import java.math.BigDecimal
 import java.math.MathContext
+import kotlin.math.pow
 
 class SimpleCalculator : AppCompatActivity() {
 
@@ -147,33 +148,40 @@ class SimpleCalculator : AppCompatActivity() {
 
     private fun calculate(op: String) {
         if (firstNumber.isNotEmpty() && secondNumber.isNotEmpty() && op.isNotEmpty()) {
-            val firstNum = BigDecimal(firstNumber)
-            val secondNum = BigDecimal(secondNumber)
-            var result = BigDecimal.ZERO
-
+            var res: Double = firstNumber.toDouble()
             when (op) {
-                "+" -> result = firstNum.add(secondNum)
-                "-" -> result = firstNum.subtract(secondNum)
-                "*" -> result = firstNum.multiply(secondNum)
+                "+" -> res += secondNumber.toDouble()
+
+                "-" -> res -= secondNumber.toDouble()
+
+                "*" -> res *= secondNumber.toDouble()
+
                 "/" -> {
-                    if (secondNum.compareTo(BigDecimal.ZERO) == 0) {
-                        Log.d("calc", "Error")
-                        showToast("Can't divide by 0!")
+                    if (secondNumber == "0") {
+                        val text = "Can't divide by 0!"
+                        val duration = Toast.LENGTH_SHORT
+                        val toast = Toast.makeText(this, text, duration) // in Activity
+                        toast.show()
+                        Log.d("error","divide/0")
                         error = true
                         error()
-                        return
                     } else {
-                        result = firstNum.divide(secondNum, MathContext.DECIMAL64)
+                        res /= secondNumber.toDouble()
                     }
                 }
             }
-
-            if (!error) {
-                Log.d("calc", "$firstNumber $op $secondNumber = $result")
-                firstNumber = result.stripTrailingZeros().toPlainString()
-                showResult()
+            if (secondNumber != "" && !error) {
+                Log.d("calc", "$firstNumber $op $secondNumber")
+                firstNumber = res.toString()
+                Log.d("result", "=$firstNumber")
             }
         }
+    }
+
+    private fun error() {
+        fullClear()
+        error=true
+        Log.d("errorClear", "empty")
     }
 
     private fun showToast(message: String) {
@@ -206,11 +214,6 @@ class SimpleCalculator : AppCompatActivity() {
         calculate(operation)
         showResult()
         calculated = true
-    }
-
-    private fun error() {
-        fullClear()
-        Log.d("errorClear", "empty")
     }
 
     private fun clear() {

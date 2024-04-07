@@ -195,6 +195,7 @@ class AdvancedCalculator : AppCompatActivity() {
                         val duration = Toast.LENGTH_SHORT
                         val toast = Toast.makeText(this, text, duration) // in Activity
                         toast.show()
+                        Log.d("error","divide/0")
                         error = true
                         error()
                     } else {
@@ -216,6 +217,7 @@ class AdvancedCalculator : AppCompatActivity() {
 
     private fun error() {
         fullClear()
+        error=true
         Log.d("errorClear", "empty")
     }
 
